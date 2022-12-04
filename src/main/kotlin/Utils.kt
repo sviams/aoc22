@@ -93,6 +93,10 @@ fun <T> List<T>.takeWhileInclusive(pred: (T) -> Boolean): List<T> {
     }
 }
 
+fun IntRange.contains(other: IntRange): Boolean = first <= other.first && last >= other.last
+
+fun IntRange.intersects(other: IntRange): Boolean = contains(other.first) || other.contains(first)
+
 tailrec fun<T> List<T>.groupBy(result: List<List<T>> = listOf(), predicate: (T) -> Boolean): List<List<T>> {
     if (this.isEmpty()) return result
     val lines: List<T> = this.takeWhile { predicate(it) }
