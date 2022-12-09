@@ -22,6 +22,7 @@ data class Pos(val x: Int, val y: Int) {
         val SOUTH = Pos(0,1)
         val WEST = Pos(-1,0)
         val EAST = Pos(1, 0)
+        val ORIGIN = Pos(0,0)
     }
 }
 
