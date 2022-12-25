@@ -9,6 +9,9 @@ data class Pos(val x: Int, val y: Int) {
     fun distanceTo(other: Pos) = abs(x - other.x) + abs(y - other.y)
     fun product() = x * y
     fun neighbors() = hashSetOf(this.plus(NORTH), this.plus(SOUTH), this.plus(EAST), this.plus(WEST))
+
+    fun dotProduct(other: Pos) = x * other.x + y * other.y
+
     override fun equals(other: Any?): Boolean {
         val o = other as Pos
         return x == o.x && y == o.y
@@ -23,8 +26,18 @@ data class Pos(val x: Int, val y: Int) {
         val WEST = Pos(-1,0)
         val EAST = Pos(1, 0)
         val ORIGIN = Pos(0,0)
+
+        tailrec fun pointsBetween(start: Pos, end: Pos, result: List<Pos> = emptyList()): List<Pos> {
+            if (start == end) return result
+            val newX = if (start.x < end.x) start.x+1 else if (start.x > end.x) start.x-1 else start.x
+            val newY = if (start.y < end.y) start.y+1 else if (start.y > end.y) start.y-1 else start.y
+            val p = Pos(newX, newY)
+            return pointsBetween(p, end, result.plus(p))
+        }
     }
 }
+
+data class Vector(val start: Pos, val end: Pos)
 
 data class Pos3D(val x: Int, val y: Int, val z: Int) {
     operator fun plus(other: Pos3D) = Pos3D(x + other.x, y + other.y, z + other.z)
